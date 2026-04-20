@@ -373,9 +373,11 @@ export const STRINGS_FR = {
         previewRows: "Lignes d'aperçu",
         groupBy: 'Grouper par',
         defaultTitleOption: (rows: number) => `Lignes de titre par défaut (${rows})`,
+        defaultAutoTitleOption: 'Lignes de titre par défaut (Auto)',
         defaultPreviewOption: (rows: number) => `Lignes d'aperçu par défaut (${rows})`,
         defaultGroupOption: (groupLabel: string) => `Regroupement par défaut (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} ligne${rows === 1 ? '' : 's'} de titre`,
+        autoTitleRowOption: 'Lignes de titre auto',
         previewRowOption: (rows: number) => `${rows} ligne${rows === 1 ? '' : 's'} d'aperçu`
     },
 
@@ -1610,7 +1612,8 @@ export const STRINGS_FR = {
                 desc: 'Nombre de lignes à afficher pour les titres des notes.',
                 options: {
                     '1': '1 ligne',
-                    '2': '2 lignes'
+                    '2': '2 lignes',
+                    '0': 'Auto'
                 }
             },
             showFeatureImage: {

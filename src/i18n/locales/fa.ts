@@ -372,9 +372,11 @@ export const STRINGS_FA = {
         previewRows: 'ردیف‌های پیش‌نمایش',
         groupBy: 'گروه‌بندی بر اساس',
         defaultTitleOption: (rows: number) => `ردیف‌های عنوان پیش‌فرض (${rows})`,
+        defaultAutoTitleOption: 'ردیف‌های عنوان پیش‌فرض (خودکار)',
         defaultPreviewOption: (rows: number) => `ردیف‌های پیش‌نمایش پیش‌فرض (${rows})`,
         defaultGroupOption: (groupLabel: string) => `گروه‌بندی پیش‌فرض (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} ردیف عنوان`,
+        autoTitleRowOption: 'ردیف‌های عنوان خودکار',
         previewRowOption: (rows: number) => `${rows} ردیف پیش‌نمایش`
     },
 
@@ -1604,7 +1606,8 @@ export const STRINGS_FA = {
                 desc: 'تعداد ردیف‌ها برای نمایش عناوین یادداشت.',
                 options: {
                     '1': '۱ ردیف',
-                    '2': '۲ ردیف'
+                    '2': '۲ ردیف',
+                    '0': 'خودکار'
                 }
             },
             showFeatureImage: {

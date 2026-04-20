@@ -275,6 +275,11 @@ export function useListPaneScroll({
         scrollMargin: effectiveScrollMargin,
         // Ensure scrollToIndex aligns items below the overlay chrome instead of under it.
         scrollPaddingStart: effectiveScrollMargin,
+        // Key by item identity, not array index: when folders swap, index-keyed
+        // rows inherit the previous folder's cached height and ResizeObserver
+        // stays silent because the reused DOM node's measured size matches the
+        // stale cache — leaving rows stuck at the previous size until scroll.
+        getItemKey: index => listItems[index]?.key ?? String(index),
         estimateSize: index => {
             const item = listItems[index];
             const heights = listMeasurements;
@@ -559,12 +564,8 @@ export function useListPaneScroll({
             prevIndexMapSizeRef.current = filePathToIndex.size;
             prevIndexMapObjRef.current = filePathToIndex;
             indexVersionRef.current = indexVersionRef.current + 1;
-            // Re-measure on any list structure/index change (covers reorders/add/remove)
-            if (rowVirtualizer) {
-                rowVirtualizer.measure();
-            }
         }
-    }, [filePathToIndex, filePathToIndex.size, rowVirtualizer]);
+    }, [filePathToIndex, filePathToIndex.size]);
 
     /**
      * Priority-based scroll queue management.
@@ -705,6 +706,48 @@ export function useListPaneScroll({
     ]);
 
     /**
+     * Force the virtualizer to re-read the height of every currently mounted
+     * row without clearing its size cache. `rowVirtualizer.measure()` wipes
+     * itemSizeCache, which makes variable-height rows fall back to the MAX
+     * estimate and then stay stuck there whenever ResizeObserver doesn't fire
+     * (same DOM node, same natural height, same index). Iterating the mounted
+     * `.nn-virtual-item` nodes and calling `measureElement` on each forces a
+     * fresh offsetHeight read for visible rows while leaving off-screen cache
+     * entries intact; those rows will be re-measured when they remount.
+     *
+     * Deferred via requestAnimationFrame so the pass runs AFTER React has
+     * finished committing any pending updates. Calling `measureElement`
+     * synchronously during React's reconciliation (e.g., while search
+     * results are unmounting/mounting rows) can race with the reconciler's
+     * child-list mutations since each measurement schedules another render.
+     */
+    const remeasureRafRef = useRef<number | null>(null);
+    const remeasureVisibleRows = useCallback(() => {
+        if (!rowVirtualizer) return;
+        if (remeasureRafRef.current !== null) return;
+        remeasureRafRef.current = requestAnimationFrame(() => {
+            remeasureRafRef.current = null;
+            const scrollEl = scrollContainerRef.current;
+            if (!scrollEl) return;
+            const nodes = scrollEl.querySelectorAll<HTMLElement>('.nn-virtual-item[data-index]');
+            nodes.forEach(node => {
+                if (node.isConnected) {
+                    rowVirtualizer.measureElement(node);
+                }
+            });
+        });
+    }, [rowVirtualizer]);
+
+    useEffect(() => {
+        return () => {
+            if (remeasureRafRef.current !== null) {
+                cancelAnimationFrame(remeasureRafRef.current);
+                remeasureRafRef.current = null;
+            }
+        };
+    }, []);
+
+    /**
      * Subscribe to database content changes and re-measure virtualizer when needed.
      * Handles preview text, feature images, tags, and metadata changes.
      */
@@ -736,14 +779,14 @@ export function useListPaneScroll({
             });
 
             if (needsRemeasure) {
-                rowVirtualizer.measure();
+                remeasureVisibleRows();
             }
         });
 
         return () => {
             unsubscribe();
         };
-    }, [rowVirtualizer, getDB]);
+    }, [rowVirtualizer, getDB, remeasureVisibleRows]);
 
     /**
      * Listen for mobile drawer visibility events.
@@ -777,7 +820,7 @@ export function useListPaneScroll({
     useEffect(() => {
         if (!rowVirtualizer) return;
 
-        rowVirtualizer.measure();
+        remeasureVisibleRows();
     }, [
         topSpacerHeight,
         settings.showFileDate,
@@ -802,7 +845,8 @@ export function useListPaneScroll({
         settings.compactItemHeightScaleText,
         folderSettings,
         listMeasurements,
-        rowVirtualizer
+        rowVirtualizer,
+        remeasureVisibleRows
     ]);
 
     /**
@@ -811,9 +855,9 @@ export function useListPaneScroll({
      */
     useEffect(() => {
         if (isStorageReady && rowVirtualizer) {
-            rowVirtualizer.measure();
+            remeasureVisibleRows();
         }
-    }, [isStorageReady, rowVirtualizer]);
+    }, [isStorageReady, rowVirtualizer, remeasureVisibleRows]);
 
     /**
      * Handle scrolling when list configuration changes (descendants toggle, appearance, grouping, or sort).

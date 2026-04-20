@@ -372,9 +372,11 @@ export const STRINGS_EN = {
         previewRows: 'Preview rows',
         groupBy: 'Group by',
         defaultTitleOption: (rows: number) => `Default title rows (${rows})`,
+        defaultAutoTitleOption: 'Default title rows (Auto)',
         defaultPreviewOption: (rows: number) => `Default preview rows (${rows})`,
         defaultGroupOption: (groupLabel: string) => `Default grouping (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} title row${rows === 1 ? '' : 's'}`,
+        autoTitleRowOption: 'Auto title rows',
         previewRowOption: (rows: number) => `${rows} preview row${rows === 1 ? '' : 's'}`
     },
 
@@ -1600,7 +1602,8 @@ export const STRINGS_EN = {
                 desc: 'Number of rows to display for note titles.',
                 options: {
                     '1': '1 row',
-                    '2': '2 rows'
+                    '2': '2 rows',
+                    '0': 'Auto'
                 }
             },
             showFeatureImage: {

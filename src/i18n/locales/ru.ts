@@ -373,9 +373,11 @@ export const STRINGS_RU = {
         previewRows: 'Строки превью',
         groupBy: 'Группировать по',
         defaultTitleOption: (rows: number) => `Строк заголовка по умолчанию (${rows})`,
+        defaultAutoTitleOption: 'Строк заголовка по умолчанию (Авто)',
         defaultPreviewOption: (rows: number) => `Строк превью по умолчанию (${rows})`,
         defaultGroupOption: (groupLabel: string) => `Группировка по умолчанию (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} ${rows === 1 ? 'строка' : rows < 5 ? 'строки' : 'строк'} заголовка`,
+        autoTitleRowOption: 'Авто строк заголовка',
         previewRowOption: (rows: number) => `${rows} ${rows === 1 ? 'строка' : rows < 5 ? 'строки' : 'строк'} превью`
     },
 
@@ -1602,7 +1604,8 @@ export const STRINGS_RU = {
                 desc: 'Количество строк для отображения названий заметок.',
                 options: {
                     '1': '1 строка',
-                    '2': '2 строки'
+                    '2': '2 строки',
+                    '0': 'Авто'
                 }
             },
             showFeatureImage: {

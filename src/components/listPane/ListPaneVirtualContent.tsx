@@ -387,6 +387,7 @@ export function ListPaneVirtualContent({
                             return (
                                 <div
                                     key={virtualItem.key}
+                                    ref={rowVirtualizer.measureElement}
                                     className={`nn-virtual-item ${
                                         item.type === ListPaneItemType.FILE ? 'nn-virtual-file-item' : ''
                                     } ${isLastFile ? 'nn-last-file' : ''} ${hideSeparator ? 'nn-hide-separator-selection' : ''}`}

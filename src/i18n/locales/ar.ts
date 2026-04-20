@@ -372,9 +372,11 @@ export const STRINGS_AR = {
         previewRows: 'صفوف المعاينة',
         groupBy: 'تجميع حسب',
         defaultTitleOption: (rows: number) => `صفوف العنوان الافتراضية (${rows})`,
+        defaultAutoTitleOption: 'صفوف العنوان الافتراضية (تلقائي)',
         defaultPreviewOption: (rows: number) => `صفوف المعاينة الافتراضية (${rows})`,
         defaultGroupOption: (groupLabel: string) => `التجميع الافتراضي (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} صف عنوان`,
+        autoTitleRowOption: 'صفوف عنوان تلقائية',
         previewRowOption: (rows: number) => `${rows} صف معاينة`
     },
 
@@ -1602,7 +1604,8 @@ export const STRINGS_AR = {
                 desc: 'عدد الصفوف المعروضة لعناوين الملاحظات.',
                 options: {
                     '1': 'صف واحد',
-                    '2': 'صفان'
+                    '2': 'صفان',
+                    '0': 'تلقائي'
                 }
             },
             showFeatureImage: {

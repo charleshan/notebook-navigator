@@ -373,9 +373,11 @@ export const STRINGS_UK = {
         previewRows: 'Рядки попереднього перегляду',
         groupBy: 'Групувати за',
         defaultTitleOption: (rows: number) => `Рядки заголовка за замовчуванням (${rows})`,
+        defaultAutoTitleOption: 'Рядки заголовка за замовчуванням (Авто)',
         defaultPreviewOption: (rows: number) => `Рядки попереднього перегляду за замовчуванням (${rows})`,
         defaultGroupOption: (groupLabel: string) => `Групування за замовчуванням (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} ${rows === 1 ? 'рядок' : rows < 5 ? 'рядки' : 'рядків'} заголовка`,
+        autoTitleRowOption: 'Авто рядки заголовка',
         previewRowOption: (rows: number) => `${rows} ${rows === 1 ? 'рядок' : rows < 5 ? 'рядки' : 'рядків'} попереднього перегляду`
     },
 
@@ -1602,7 +1604,8 @@ export const STRINGS_UK = {
                 desc: 'Кількість рядків для відображення заголовків нотаток.',
                 options: {
                     '1': '1 рядок',
-                    '2': '2 рядки'
+                    '2': '2 рядки',
+                    '0': 'Авто'
                 }
             },
             showFeatureImage: {

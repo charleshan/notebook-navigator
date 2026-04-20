@@ -3790,14 +3790,19 @@ body {
     -webkit-box-orient: vertical;
     line-height: var(--nn-file-title-line-height);
     word-break: break-word;
-    min-height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1));
-    height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1));
+    min-height: var(--nn-file-title-line-height);
+    max-height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1));
 }
 
 .nn-file-name[data-title-rows='1'] {
     display: block;
     white-space: nowrap;
     word-break: normal;
+}
+
+.nn-file-name[data-title-rows='0'] {
+    -webkit-line-clamp: unset;
+    max-height: none;
 }
 
 .nn-file-name[data-has-color='true'] {
@@ -7774,8 +7779,12 @@ body.nn-resizing {
    Since line-height var is pre-divided by scale, multiplying by scale here gives
    the original value (21px, 20px, 19px) which matches the scaled line-height. */
 .notebook-navigator-android .nn-file-name {
-    min-height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1) * var(--nn-android-font-scale, 1));
-    height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1) * var(--nn-android-font-scale, 1));
+    min-height: calc(var(--nn-file-title-line-height) * var(--nn-android-font-scale, 1));
+    max-height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1) * var(--nn-android-font-scale, 1));
+}
+
+.notebook-navigator-android .nn-file-name[data-title-rows='0'] {
+    max-height: none;
 }
 
 .notebook-navigator-android .nn-file-preview:not(.nn-file-second-line .nn-file-preview) {

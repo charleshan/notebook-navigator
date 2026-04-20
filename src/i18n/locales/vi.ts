@@ -372,9 +372,11 @@ export const STRINGS_VI = {
         previewRows: 'Dòng xem trước',
         groupBy: 'Nhóm theo',
         defaultTitleOption: (rows: number) => `Dòng tiêu đề mặc định (${rows})`,
+        defaultAutoTitleOption: 'Dòng tiêu đề mặc định (Tự động)',
         defaultPreviewOption: (rows: number) => `Dòng xem trước mặc định (${rows})`,
         defaultGroupOption: (groupLabel: string) => `Nhóm mặc định (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} dòng tiêu đề`,
+        autoTitleRowOption: 'Dòng tiêu đề tự động',
         previewRowOption: (rows: number) => `${rows} dòng xem trước`
     },
 
@@ -1605,7 +1607,8 @@ export const STRINGS_VI = {
                 desc: 'Số dòng hiển thị cho tiêu đề ghi chú.',
                 options: {
                     '1': '1 dòng',
-                    '2': '2 dòng'
+                    '2': '2 dòng',
+                    '0': 'Tự động'
                 }
             },
             showFeatureImage: {

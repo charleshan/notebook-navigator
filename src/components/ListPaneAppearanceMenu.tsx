@@ -183,7 +183,11 @@ export function showListPaneAppearanceMenu({
     menu.addItem(item => {
         const hasCustomTitleRows = appearance?.titleRows !== undefined;
         const isDefaultTitle = !hasCustomTitleRows;
-        item.setTitle(`    ${strings.folderAppearance.defaultTitleOption(settings.fileNameRows)}`)
+        const defaultLabel =
+            settings.fileNameRows === 0
+                ? strings.folderAppearance.defaultAutoTitleOption
+                : strings.folderAppearance.defaultTitleOption(settings.fileNameRows);
+        item.setTitle(`    ${defaultLabel}`)
             .setChecked(isDefaultTitle)
             .onClick(() => {
                 updateAppearance({ titleRows: undefined });
@@ -200,6 +204,16 @@ export function showListPaneAppearanceMenu({
                     updateAppearance({ titleRows: rows });
                 });
         });
+    });
+
+    // Auto title rows option
+    menu.addItem(item => {
+        const isChecked = appearance?.titleRows === 0;
+        item.setTitle(`    ${strings.folderAppearance.autoTitleRowOption}`)
+            .setChecked(isChecked)
+            .onClick(() => {
+                updateAppearance({ titleRows: 0 });
+            });
     });
 
     if (settings.showFilePreview && !isCompact) {

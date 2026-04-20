@@ -373,9 +373,11 @@ export const STRINGS_DE = {
         previewRows: 'Vorschauzeilen',
         groupBy: 'Gruppieren nach',
         defaultTitleOption: (rows: number) => `Standard-Titelzeilen (${rows})`,
+        defaultAutoTitleOption: 'Standard-Titelzeilen (Auto)',
         defaultPreviewOption: (rows: number) => `Standard-Vorschauzeilen (${rows})`,
         defaultGroupOption: (groupLabel: string) => `Standardgruppierung (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} Titelzeile${rows === 1 ? '' : 'n'}`,
+        autoTitleRowOption: 'Automatische Titelzeilen',
         previewRowOption: (rows: number) => `${rows} Vorschauzeile${rows === 1 ? '' : 'n'}`
     },
 
@@ -1608,7 +1610,8 @@ export const STRINGS_DE = {
                 desc: 'Anzahl der Zeilen für Notizentitel.',
                 options: {
                     '1': '1 Zeile',
-                    '2': '2 Zeilen'
+                    '2': '2 Zeilen',
+                    '0': 'Auto'
                 }
             },
             showFeatureImage: {

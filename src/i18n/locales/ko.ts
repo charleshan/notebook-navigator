@@ -371,9 +371,11 @@ export const STRINGS_KO = {
         previewRows: '미리보기 행',
         groupBy: '그룹화 기준',
         defaultTitleOption: (rows: number) => `기본 제목 행 (${rows})`,
+        defaultAutoTitleOption: '기본 제목 행 (자동)',
         defaultPreviewOption: (rows: number) => `기본 미리보기 행 (${rows})`,
         defaultGroupOption: (groupLabel: string) => `기본 그룹화 (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows}개 제목 행`,
+        autoTitleRowOption: '자동 제목 행',
         previewRowOption: (rows: number) => `${rows}개 미리보기 행`
     },
 
@@ -1603,7 +1605,8 @@ export const STRINGS_KO = {
                 desc: '노트 제목에 표시할 행 수입니다.',
                 options: {
                     '1': '1행',
-                    '2': '2행'
+                    '2': '2행',
+                    '0': '자동'
                 }
             },
             showFeatureImage: {

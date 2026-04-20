@@ -241,14 +241,19 @@
     -webkit-box-orient: vertical;
     line-height: var(--nn-file-title-line-height);
     word-break: break-word;
-    min-height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1));
-    height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1));
+    min-height: var(--nn-file-title-line-height);
+    max-height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1));
 }
 
 .nn-file-name[data-title-rows='1'] {
     display: block;
     white-space: nowrap;
     word-break: normal;
+}
+
+.nn-file-name[data-title-rows='0'] {
+    -webkit-line-clamp: unset;
+    max-height: none;
 }
 
 .nn-file-name[data-has-color='true'] {
