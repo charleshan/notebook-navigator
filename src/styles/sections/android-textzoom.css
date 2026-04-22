@@ -61,8 +61,8 @@
 }
 
 .notebook-navigator-android .nn-file-preview:not(.nn-file-second-line .nn-file-preview) {
-    min-height: calc(var(--nn-file-multiline-text-line-height) * var(--preview-rows, 1) * var(--nn-android-font-scale, 1));
-    height: calc(var(--nn-file-multiline-text-line-height) * var(--preview-rows, 1) * var(--nn-android-font-scale, 1));
+    min-height: calc(var(--nn-file-multiline-text-line-height) * var(--nn-android-font-scale, 1));
+    max-height: calc(var(--nn-file-multiline-text-line-height) * var(--preview-rows, 1) * var(--nn-android-font-scale, 1));
 }
 
 /* Icon vertical centering - line-height is pre-compensated, icon size is not */
