@@ -406,6 +406,7 @@ export const STRINGS_PL = {
         groupBy: 'Grupuj według',
         titleRowOption: (rows: number) =>
             `${rows} ${rows === 1 ? 'wiersz' : rows === 2 || rows === 3 || rows === 4 ? 'wiersze' : 'wierszy'} tytułu`,
+        autoTitleRowOption: 'Automatyczne wiersze tytułu',
         previewRowOption: (rows: number) =>
             `${rows} ${rows === 1 ? 'wiersz' : rows === 2 || rows === 3 || rows === 4 ? 'wiersze' : 'wierszy'} podglądu`
     },
@@ -1935,7 +1936,8 @@ export const STRINGS_PL = {
                 options: {
                     '1': '1 wiersz',
                     '2': '2 wiersze',
-                    '3': '3 wiersze'
+                    '3': '3 wiersze',
+                    '0': 'Auto'
                 }
             },
             useFolderColor: {

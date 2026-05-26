@@ -404,6 +404,7 @@ export const STRINGS_EN = {
         previewRows: 'Preview rows',
         groupBy: 'Group by',
         titleRowOption: (rows: number) => `${rows} title row${rows === 1 ? '' : 's'}`,
+        autoTitleRowOption: 'Auto title rows',
         previewRowOption: (rows: number) => `${rows} preview row${rows === 1 ? '' : 's'}`
     },
 
@@ -1924,7 +1925,8 @@ export const STRINGS_EN = {
                 options: {
                     '1': '1 row',
                     '2': '2 rows',
-                    '3': '3 rows'
+                    '3': '3 rows',
+                    '0': 'Auto'
                 }
             },
             useFolderColor: {

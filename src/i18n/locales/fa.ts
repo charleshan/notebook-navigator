@@ -404,6 +404,7 @@ export const STRINGS_FA = {
         previewRows: 'ردیف‌های پیش‌نمایش',
         groupBy: 'گروه‌بندی بر اساس',
         titleRowOption: (rows: number) => `${rows} ردیف عنوان`,
+        autoTitleRowOption: 'ردیف‌های عنوان خودکار',
         previewRowOption: (rows: number) => `${rows} ردیف پیش‌نمایش`
     },
 
@@ -1931,7 +1932,8 @@ export const STRINGS_FA = {
                 options: {
                     '1': '۱ ردیف',
                     '2': '۲ ردیف',
-                    '3': '۳ ردیف'
+                    '3': '۳ ردیف',
+                    '0': 'خودکار'
                 }
             },
             useFolderColor: {

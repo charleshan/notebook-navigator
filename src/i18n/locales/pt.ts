@@ -405,6 +405,7 @@ export const STRINGS_PT = {
         previewRows: 'Linhas de pré-visualização',
         groupBy: 'Agrupar por',
         titleRowOption: (rows: number) => `${rows} linha${rows === 1 ? '' : 's'} de título`,
+        autoTitleRowOption: 'Linhas de título automáticas',
         previewRowOption: (rows: number) => `${rows} linha${rows === 1 ? '' : 's'} de pré-visualização`
     },
 
@@ -1933,7 +1934,8 @@ export const STRINGS_PT = {
                 options: {
                     '1': '1 linha',
                     '2': '2 linhas',
-                    '3': '3 linhas'
+                    '3': '3 linhas',
+                    '0': 'Auto'
                 }
             },
             useFolderColor: {

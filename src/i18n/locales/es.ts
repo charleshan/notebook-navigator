@@ -405,6 +405,7 @@ export const STRINGS_ES = {
         previewRows: 'Filas de vista previa',
         groupBy: 'Agrupar por',
         titleRowOption: (rows: number) => `${rows} fila${rows === 1 ? '' : 's'} de título`,
+        autoTitleRowOption: 'Filas de título automáticas',
         previewRowOption: (rows: number) => `${rows} fila${rows === 1 ? '' : 's'} de vista previa`
     },
 
@@ -1934,7 +1935,8 @@ export const STRINGS_ES = {
                 options: {
                     '1': '1 fila',
                     '2': '2 filas',
-                    '3': '3 filas'
+                    '3': '3 filas',
+                    '0': 'Auto'
                 }
             },
             useFolderColor: {

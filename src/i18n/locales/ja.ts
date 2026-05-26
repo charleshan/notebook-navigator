@@ -404,6 +404,7 @@ export const STRINGS_JA = {
         previewRows: 'プレビュー行数',
         groupBy: 'グループ分け',
         titleRowOption: (rows: number) => `タイトル${rows}行`,
+        autoTitleRowOption: '自動タイトル行',
         previewRowOption: (rows: number) => `プレビュー${rows}行`
     },
 
@@ -1929,7 +1930,8 @@ export const STRINGS_JA = {
                 options: {
                     '1': '1行',
                     '2': '2行',
-                    '3': '3行'
+                    '3': '3行',
+                    '0': '自動'
                 }
             },
             useFolderColor: {

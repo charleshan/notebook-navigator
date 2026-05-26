@@ -405,6 +405,7 @@ export const STRINGS_RU = {
         previewRows: 'Строки превью',
         groupBy: 'Группировать по',
         titleRowOption: (rows: number) => `${rows} ${rows === 1 ? 'строка' : rows < 5 ? 'строки' : 'строк'} заголовка`,
+        autoTitleRowOption: 'Авто строк заголовка',
         previewRowOption: (rows: number) => `${rows} ${rows === 1 ? 'строка' : rows < 5 ? 'строки' : 'строк'} превью`
     },
 
@@ -1928,7 +1929,8 @@ export const STRINGS_RU = {
                 options: {
                     '1': '1 строка',
                     '2': '2 строки',
-                    '3': '3 строки'
+                    '3': '3 строки',
+                    '0': 'Авто'
                 }
             },
             useFolderColor: {

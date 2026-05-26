@@ -405,6 +405,7 @@ export const STRINGS_TR = {
         previewRows: 'Önizleme satırları',
         groupBy: 'Grupla',
         titleRowOption: (rows: number) => `${rows} başlık satırı`,
+        autoTitleRowOption: 'Otomatik başlık satırları',
         previewRowOption: (rows: number) => `${rows} önizleme satırı`
     },
 
@@ -1929,7 +1930,8 @@ export const STRINGS_TR = {
                 options: {
                     '1': '1 satır',
                     '2': '2 satır',
-                    '3': '3 satır'
+                    '3': '3 satır',
+                    '0': 'Otomatik'
                 }
             },
             useFolderColor: {

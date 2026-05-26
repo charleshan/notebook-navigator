@@ -707,6 +707,8 @@ export interface NotebookNavigatorSettings {
     showCategoryIcons: boolean;
     fileTypeIconMap: Record<string, string>;
     fileTypeIconPreset: FileTypeIconPreset;
+    // Maximum visual lines for file title rows. 0 = auto (no cap, wrap freely);
+    // otherwise cap with ellipsis. Rows shrink to the actual wrap count.
     fileNameRows: number;
     useFolderColorForTitles: boolean;
     showFilePreview: boolean;

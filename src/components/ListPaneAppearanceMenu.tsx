@@ -193,6 +193,17 @@ export function showListPaneAppearanceMenu({
         });
     });
 
+    // Auto title rows option
+    menu.addItem(item => {
+        const isDefaultRows = settings.fileNameRows === 0;
+        item.setTitle(`    ${withDefaultSuffix(strings.folderAppearance.autoTitleRowOption, isDefaultRows)}`)
+            .setIcon('lucide-text')
+            .setChecked(effectiveTitleRows === 0)
+            .onClick(() => {
+                updateAppearance({ titleRows: isDefaultRows ? undefined : 0 });
+            });
+    });
+
     if (settings.showFilePreview && !isCompact) {
         menu.addSeparator();
 

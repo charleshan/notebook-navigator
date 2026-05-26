@@ -403,6 +403,7 @@ export const STRINGS_KO = {
         previewRows: '미리보기 행',
         groupBy: '그룹화 기준',
         titleRowOption: (rows: number) => `${rows}개 제목 행`,
+        autoTitleRowOption: '자동 제목 행',
         previewRowOption: (rows: number) => `${rows}개 미리보기 행`
     },
 
@@ -1927,7 +1928,8 @@ export const STRINGS_KO = {
                 options: {
                     '1': '1행',
                     '2': '2행',
-                    '3': '3행'
+                    '3': '3행',
+                    '0': '자동'
                 }
             },
             useFolderColor: {

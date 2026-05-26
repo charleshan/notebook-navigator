@@ -404,6 +404,7 @@ export const STRINGS_AR = {
         previewRows: 'صفوف المعاينة',
         groupBy: 'تجميع حسب',
         titleRowOption: (rows: number) => `${rows} صف عنوان`,
+        autoTitleRowOption: 'صفوف عنوان تلقائية',
         previewRowOption: (rows: number) => `${rows} صف معاينة`
     },
 
@@ -1925,7 +1926,8 @@ export const STRINGS_AR = {
                 options: {
                     '1': 'صف واحد',
                     '2': 'صفان',
-                    '3': '3 صفوف'
+                    '3': '3 صفوف',
+                    '0': 'تلقائي'
                 }
             },
             useFolderColor: {

@@ -405,6 +405,7 @@ export const STRINGS_ID = {
         previewRows: 'Baris pratinjau',
         groupBy: 'Kelompokkan berdasarkan',
         titleRowOption: (rows: number) => `${rows} baris judul`,
+        autoTitleRowOption: 'Baris judul otomatis',
         previewRowOption: (rows: number) => `${rows} baris pratinjau`
     },
 
@@ -1931,7 +1932,8 @@ export const STRINGS_ID = {
                 options: {
                     '1': '1 baris',
                     '2': '2 baris',
-                    '3': '3 baris'
+                    '3': '3 baris',
+                    '0': 'Otomatis'
                 }
             },
             useFolderColor: {

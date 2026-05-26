@@ -1263,6 +1263,48 @@ export function useListPaneScroll({
     }, [executePendingScroll, rowVirtualizer, isScrollContainerReady, pendingScrollVersion]);
 
     /**
+     * Force the virtualizer to re-read the height of every currently mounted
+     * row without clearing its size cache. `rowVirtualizer.measure()` wipes
+     * itemSizeCache, which makes variable-height rows fall back to the MAX
+     * estimate and then stay stuck there whenever ResizeObserver doesn't fire
+     * (same DOM node, same natural height, same index). Iterating the mounted
+     * `.nn-virtual-item` nodes and calling `measureElement` on each forces a
+     * fresh offsetHeight read for visible rows while leaving off-screen cache
+     * entries intact; those rows will be re-measured when they remount.
+     *
+     * Deferred via requestAnimationFrame so the pass runs AFTER React has
+     * finished committing any pending updates. Calling `measureElement`
+     * synchronously during React's reconciliation (e.g., while search
+     * results are unmounting/mounting rows) can race with the reconciler's
+     * child-list mutations since each measurement schedules another render.
+     */
+    const remeasureRafRef = useRef<number | null>(null);
+    const remeasureVisibleRows = useCallback(() => {
+        if (!rowVirtualizer) return;
+        if (remeasureRafRef.current !== null) return;
+        remeasureRafRef.current = window.requestAnimationFrame(() => {
+            remeasureRafRef.current = null;
+            const scrollEl = scrollContainerRef.current;
+            if (!scrollEl) return;
+            const nodes = scrollEl.querySelectorAll<HTMLElement>('.nn-virtual-item[data-index]');
+            nodes.forEach(node => {
+                if (node.isConnected) {
+                    rowVirtualizer.measureElement(node);
+                }
+            });
+        });
+    }, [rowVirtualizer]);
+
+    useEffect(() => {
+        return () => {
+            if (remeasureRafRef.current !== null) {
+                window.cancelAnimationFrame(remeasureRafRef.current);
+                remeasureRafRef.current = null;
+            }
+        };
+    }, []);
+
+    /**
      * Subscribe to database content changes and refresh virtualizer size estimates when needed.
      * Handles preview text, feature images, tags, properties, and word count changes.
      */
@@ -1277,7 +1319,10 @@ export function useListPaneScroll({
             });
 
             if (needsRemeasure) {
-                remeasureScheduler?.schedule();
+                // Variable-height rows: re-read mounted rows per-node instead of
+                // upstream's scheduler, whose rowVirtualizer.measure() wipes
+                // itemSizeCache and leaves variable rows stuck at the max estimate.
+                remeasureVisibleRows();
             }
         });
 
@@ -1285,7 +1330,7 @@ export function useListPaneScroll({
             unsubscribe();
             remeasureScheduler?.cancel();
         };
-    }, [enabled, filePathToIndex, getDB, rowSizingConfig, rowVirtualizer]);
+    }, [enabled, filePathToIndex, getDB, rowSizingConfig, rowVirtualizer, remeasureVisibleRows]);
 
     /**
      * Listen for mobile drawer visibility events.
@@ -1319,8 +1364,8 @@ export function useListPaneScroll({
     useEffect(() => {
         if (!enabled || !rowVirtualizer) return;
 
-        rowVirtualizer.measure();
-    }, [enabled, listLayoutSignature, rowVirtualizer]);
+        remeasureVisibleRows();
+    }, [enabled, listLayoutSignature, rowVirtualizer, remeasureVisibleRows]);
 
     /**
      * Refresh size estimates when storage becomes ready after cold boot.
@@ -1328,9 +1373,9 @@ export function useListPaneScroll({
      */
     useLayoutEffect(() => {
         if (enabled && isStorageReady && rowVirtualizer) {
-            rowVirtualizer.measure();
+            remeasureVisibleRows();
         }
-    }, [enabled, isStorageReady, rowVirtualizer]);
+    }, [enabled, isStorageReady, rowVirtualizer, remeasureVisibleRows]);
 
     /**
      * Handle scrolling when list configuration changes (descendants toggle, appearance, grouping, or sort).

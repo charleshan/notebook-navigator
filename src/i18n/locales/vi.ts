@@ -404,6 +404,7 @@ export const STRINGS_VI = {
         previewRows: 'Dòng xem trước',
         groupBy: 'Nhóm theo',
         titleRowOption: (rows: number) => `${rows} dòng tiêu đề`,
+        autoTitleRowOption: 'Dòng tiêu đề tự động',
         previewRowOption: (rows: number) => `${rows} dòng xem trước`
     },
 
@@ -1932,7 +1933,8 @@ export const STRINGS_VI = {
                 options: {
                     '1': '1 dòng',
                     '2': '2 dòng',
-                    '3': '3 dòng'
+                    '3': '3 dòng',
+                    '0': 'Tự động'
                 }
             },
             useFolderColor: {

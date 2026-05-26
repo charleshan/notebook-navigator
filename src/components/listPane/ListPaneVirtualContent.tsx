@@ -404,6 +404,12 @@ interface ListPaneRowProps {
     index: number;
     top: number;
     rowHeight: number;
+    /**
+     * Virtualizer callback ref used to measure the rendered row height.
+     * Variable-height rows depend on this to report their real size instead of
+     * staying pinned to the estimate.
+     */
+    measureRef: (node: HTMLElement | null) => void;
     item: ListPaneItem;
     headerModel: HeaderRenderModel | null;
     topSpacerHeight: number;
@@ -446,6 +452,7 @@ const ListPaneRow = React.memo(function ListPaneRow({
     index,
     top,
     rowHeight,
+    measureRef,
     item,
     headerModel,
     topSpacerHeight,
@@ -515,7 +522,7 @@ const ListPaneRow = React.memo(function ListPaneRow({
     }
 
     return (
-        <div className={virtualItemClasses.join(' ')} style={virtualItemStyle} data-index={index}>
+        <div ref={measureRef} className={virtualItemClasses.join(' ')} style={virtualItemStyle} data-index={index}>
             {headerModel ? (
                 <ListPaneGroupHeader
                     header={headerModel}
@@ -1156,6 +1163,7 @@ export function ListPaneVirtualContent({
                                     index={virtualItem.index}
                                     top={Math.max(0, virtualItem.start)}
                                     rowHeight={virtualItem.size}
+                                    measureRef={rowVirtualizer.measureElement}
                                     item={item}
                                     headerModel={headerModel}
                                     topSpacerHeight={topSpacerHeight}

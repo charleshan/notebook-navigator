@@ -404,6 +404,7 @@ export const STRINGS_ZH_CN = {
         previewRows: '预览行数',
         groupBy: '分组依据',
         titleRowOption: (rows: number) => `标题${rows}行`,
+        autoTitleRowOption: '自动标题行',
         previewRowOption: (rows: number) => `预览${rows}行`
     },
 
@@ -1917,7 +1918,8 @@ export const STRINGS_ZH_CN = {
                 options: {
                     '1': '1 行',
                     '2': '2 行',
-                    '3': '3 行'
+                    '3': '3 行',
+                    '0': '自动'
                 }
             },
             useFolderColor: {
