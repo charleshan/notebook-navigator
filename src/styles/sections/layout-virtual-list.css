@@ -37,6 +37,8 @@
 /* Virtual file item wrapper - position relative for separator positioning */
 .nn-virtual-file-item {
     position: relative;
-    height: var(--item-height);
+    /* Variable row heights: size to content so measureElement reads the real height.
+       Upstream pins this wrapper to the --item-height estimate (fixed rows); that
+       estimate is an upper bound, so pinning it would stop rows shrinking to content. */
     contain: layout style paint;
 }

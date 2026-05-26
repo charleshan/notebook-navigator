@@ -745,6 +745,8 @@ function renderFileNameRowsSetting(setting: Setting, context: SettingsTabContext
                 .addOption('1', strings.settings.items.titleRows.options['1'])
                 .addOption('2', strings.settings.items.titleRows.options['2'])
                 .addOption('3', strings.settings.items.titleRows.options['3'])
+                // Fork-only option, kept out of the locale files so the downloaded upstream language packs still validate
+                .addOption('0', 'Auto (experimental)')
                 .setValue(plugin.settings.fileNameRows.toString())
                 .onChange(async value => {
                     plugin.settings.fileNameRows = parseInt(value, 10);
