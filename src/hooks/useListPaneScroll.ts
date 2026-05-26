@@ -690,6 +690,7 @@ export function useListPaneScroll({
     // Context tracking for index-version based reorder detection within a list context
     const contextIndexVersionRef = useRef<{ key: string; version: number } | null>(null);
     const lastReportedVirtualizerScrollingRef = useRef(false);
+    const scheduleScrollOffsetResyncRef = useRef<() => void>(() => undefined);
 
     useEffect(() => {
         onVirtualizerScrollingChangeRef.current = onVirtualizerScrollingChange;
@@ -876,6 +877,7 @@ export function useListPaneScroll({
             if (!enabled) {
                 return;
             }
+            scheduleScrollOffsetResyncRef.current();
             const nextIsScrolling = instance.isScrolling;
             if (nextIsScrolling && !containerVisibleRef.current) {
                 return;
@@ -1287,6 +1289,80 @@ export function useListPaneScroll({
     }, [executePendingScroll, rowVirtualizer, isScrollContainerReady, pendingScrollVersion, selectedFilePath]);
 
     /**
+     * Force the virtualizer to re-read the height of every currently mounted
+     * row without clearing its size cache. `rowVirtualizer.measure()` wipes
+     * itemSizeCache, which makes variable-height rows fall back to the MAX
+     * estimate and then stay stuck there whenever ResizeObserver doesn't fire
+     * (same DOM node, same natural height, same index). Iterating the mounted
+     * `.nn-virtual-item` nodes and calling `measureElement` on each forces a
+     * fresh offsetHeight read for visible rows while leaving off-screen cache
+     * entries intact; those rows will be re-measured when they remount.
+     *
+     * Deferred via requestAnimationFrame so the pass runs AFTER React has
+     * finished committing any pending updates. Calling `measureElement`
+     * synchronously during React's reconciliation (e.g., while search
+     * results are unmounting/mounting rows) can race with the reconciler's
+     * child-list mutations since each measurement schedules another render.
+     */
+    const remeasureRafRef = useRef<number | null>(null);
+    const remeasureVisibleRows = useCallback(() => {
+        if (!rowVirtualizer) return;
+        if (remeasureRafRef.current !== null) return;
+        remeasureRafRef.current = window.requestAnimationFrame(() => {
+            remeasureRafRef.current = null;
+            const scrollEl = scrollContainerRef.current;
+            if (!scrollEl) return;
+            const nodes = scrollEl.querySelectorAll<HTMLElement>('.nn-virtual-item[data-index]');
+            nodes.forEach(node => {
+                if (node.isConnected) {
+                    rowVirtualizer.measureElement(node);
+                }
+            });
+        });
+    }, [rowVirtualizer]);
+
+    // Measured-row compensation can leave scrollOffset stale when scrollTop
+    // is clamped without a scroll event. Once idle, replay the observed event
+    // at most once per frame so TanStack re-reads the DOM offset.
+    useEffect(() => {
+        if (!enabled || !rowVirtualizer) return;
+
+        let rafId: number | null = null;
+        const resync = () => {
+            rafId = null;
+            const scrollEl = scrollContainerRef.current;
+            if (!scrollEl || !scrollEl.isConnected || scrollEl.clientHeight === 0) return;
+            const offset = rowVirtualizer.scrollOffset;
+            if (offset === null || rowVirtualizer.isScrolling) return;
+            if (Math.abs(offset - scrollEl.scrollTop) < 1) return;
+            // Same feature check virtual-core uses to decide which event it listens for
+            scrollEl.dispatchEvent(new Event('onscrollend' in window ? 'scrollend' : 'scroll'));
+        };
+
+        scheduleScrollOffsetResyncRef.current = () => {
+            if (rafId === null) {
+                rafId = window.requestAnimationFrame(resync);
+            }
+        };
+
+        return () => {
+            scheduleScrollOffsetResyncRef.current = () => undefined;
+            if (rafId !== null) {
+                window.cancelAnimationFrame(rafId);
+            }
+        };
+    }, [enabled, rowVirtualizer]);
+
+    useEffect(() => {
+        return () => {
+            if (remeasureRafRef.current !== null) {
+                window.cancelAnimationFrame(remeasureRafRef.current);
+                remeasureRafRef.current = null;
+            }
+        };
+    }, []);
+
+    /**
      * Subscribe to database content changes and refresh virtualizer size estimates when needed.
      * Handles preview text, feature images, tags, properties, and word count changes.
      */
@@ -1301,7 +1377,10 @@ export function useListPaneScroll({
             });
 
             if (needsRemeasure) {
-                remeasureScheduler?.schedule();
+                // Variable-height rows: re-read mounted rows per-node instead of
+                // upstream's scheduler, whose rowVirtualizer.measure() wipes
+                // itemSizeCache and leaves variable rows stuck at the max estimate.
+                remeasureVisibleRows();
             }
         });
 
@@ -1309,7 +1388,7 @@ export function useListPaneScroll({
             unsubscribe();
             remeasureScheduler?.cancel();
         };
-    }, [enabled, filePathToIndex, getDB, rowSizingConfig, rowVirtualizer]);
+    }, [enabled, filePathToIndex, getDB, rowSizingConfig, rowVirtualizer, remeasureVisibleRows]);
 
     /**
      * Refresh size estimates when files become or stop being presentation files, because presentation rows
@@ -1357,8 +1436,8 @@ export function useListPaneScroll({
     useEffect(() => {
         if (!enabled || !rowVirtualizer) return;
 
-        rowVirtualizer.measure();
-    }, [enabled, listLayoutSignature, rowVirtualizer]);
+        remeasureVisibleRows();
+    }, [enabled, listLayoutSignature, rowVirtualizer, remeasureVisibleRows]);
 
     /**
      * Refresh size estimates when storage becomes ready after cold boot.
@@ -1366,9 +1445,9 @@ export function useListPaneScroll({
      */
     useLayoutEffect(() => {
         if (enabled && isStorageReady && rowVirtualizer) {
-            rowVirtualizer.measure();
+            remeasureVisibleRows();
         }
-    }, [enabled, isStorageReady, rowVirtualizer]);
+    }, [enabled, isStorageReady, rowVirtualizer, remeasureVisibleRows]);
 
     /**
      * Handle scrolling when list configuration changes (descendants toggle, appearance, grouping, or sort).

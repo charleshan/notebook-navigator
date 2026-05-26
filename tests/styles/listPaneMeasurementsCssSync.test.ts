@@ -115,17 +115,23 @@ describe('List pane measurements stay in sync with CSS', () => {
     test('android text zoom keeps title and preview clamps in sync', () => {
         const androidCss = readTextFile('src/styles/sections/android-textzoom.css');
         const titleRule = extractRuleBlock(androidCss, '.notebook-navigator-android .nn-file-name');
-        const previewRule = extractRuleBlock(androidCss, '.notebook-navigator-android .nn-file-preview');
+        const previewRule = extractRuleBlock(
+            androidCss,
+            '.notebook-navigator-android .nn-file-preview:not(.nn-file-second-line .nn-file-preview)'
+        );
 
+        // Variable rows: min-height holds one line, max-height caps at the configured rows.
         expect(titleRule).toMatch(
             /max-height:\s*calc\(var\(--nn-file-title-line-height\)\s*\*\s*var\(--filename-rows, 1\)\s*\*\s*var\(--nn-android-font-scale, 1\)\)/
         );
-        expect(titleRule).not.toMatch(/(^|\n)\s*min-height:\s*/m);
+        expect(titleRule).toMatch(/min-height:\s*calc\(var\(--nn-file-title-line-height\)\s*\*\s*var\(--nn-android-font-scale, 1\)\)/);
         expect(titleRule).not.toMatch(/(^|\n)\s*height:\s*/m);
         expect(previewRule).toMatch(
             /max-height:\s*calc\(var\(--nn-file-multiline-text-line-height\)\s*\*\s*var\(--preview-rows, 1\)\s*\*\s*var\(--nn-android-font-scale, 1\)\)/
         );
-        expect(previewRule).not.toMatch(/(^|\n)\s*min-height:\s*/m);
+        expect(previewRule).toMatch(
+            /min-height:\s*calc\(var\(--nn-file-multiline-text-line-height\)\s*\*\s*var\(--nn-android-font-scale, 1\)\)/
+        );
         expect(previewRule).not.toMatch(/(^|\n)\s*height:\s*/m);
     });
 
@@ -155,7 +161,7 @@ describe('List pane measurements stay in sync with CSS', () => {
         expect(pillRule).toMatch(/(^|\n)\s*height:\s*var\(--nn-file-tag-row-height\)\s*;/m);
     });
 
-    test('file text stack top-aligns inside fixed virtual file rows', () => {
+    test('file text stack top-aligns inside variable virtual file rows', () => {
         const listFilesCss = readTextFile('src/styles/sections/list-files.css');
         const virtualListCss = readTextFile('src/styles/sections/layout-virtual-list.css');
         const virtualFileItemRule = extractRuleBlock(virtualListCss, '.nn-virtual-file-item');
@@ -165,8 +171,10 @@ describe('List pane measurements stay in sync with CSS', () => {
         const fileTextContentRule = extractRuleBlock(listFilesCss, '.nn-file-text-content');
         const fileNameRule = extractRuleBlock(listFilesCss, '.nn-file-name');
         const previewRule = extractRuleBlock(listFilesCss, '.nn-file-preview');
+        const previewClampRule = extractRuleBlock(listFilesCss, '.nn-file-preview:not(.nn-file-second-line .nn-file-preview)');
 
-        expect(virtualFileItemRule).toMatch(/(^|\n)\s*height:\s*var\(--item-height\)\s*;/m);
+        // Variable rows: the wrapper must not pin to the --item-height estimate.
+        expect(virtualFileItemRule).not.toMatch(/(^|\n)\s*height:\s*var\(--item-height\)\s*;/m);
         expect(fileRule).toMatch(/(^|\n)\s*height:\s*100%\s*;/m);
         expect(fileContentRule).toMatch(/(^|\n)\s*height:\s*100%\s*;/m);
         expect(fileContentRule).toMatch(/(^|\n)\s*box-sizing:\s*border-box\s*;/m);
@@ -176,12 +184,12 @@ describe('List pane measurements stay in sync with CSS', () => {
         expect(fileNameRule).toMatch(
             /(^|\n)\s*max-height:\s*calc\(var\(--nn-file-title-line-height\)\s*\*\s*var\(--filename-rows, 1\)\)\s*;/m
         );
-        expect(previewRule).toMatch(
+        // The preview cap lives on the multi-line variant; the base rule just flexes.
+        expect(previewRule).toMatch(/(^|\n)\s*flex:\s*1\s*;/m);
+        expect(previewClampRule).toMatch(
             /(^|\n)\s*max-height:\s*calc\(var\(--nn-file-multiline-text-line-height\)\s*\*\s*var\(--preview-rows, 1\)\)\s*;/m
         );
-        expect(previewRule).not.toMatch(/(^|\n)\s*flex:\s*1\s*;/m);
-        expect(previewRule).not.toMatch(/(^|\n)\s*min-height:\s*/m);
-        expect(previewRule).not.toMatch(/(^|\n)\s*height:\s*/m);
+        expect(previewClampRule).toMatch(/(^|\n)\s*min-height:\s*var\(--nn-file-multiline-text-line-height\)\s*;/m);
     });
 
     test('parent folder background stays inside the fixed metadata line height', () => {
