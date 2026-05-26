@@ -49,10 +49,16 @@
 
 /* Clamp height compensation - Android doesn't scale max-height, so match the compensated line-height after textZoom applies. */
 .notebook-navigator-android .nn-file-name {
+    min-height: calc(var(--nn-file-title-line-height) * var(--nn-android-font-scale, 1));
     max-height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1) * var(--nn-android-font-scale, 1));
 }
 
-.notebook-navigator-android .nn-file-preview {
+.notebook-navigator-android .nn-file-name[data-title-rows='0'] {
+    max-height: none;
+}
+
+.notebook-navigator-android .nn-file-preview:not(.nn-file-second-line .nn-file-preview) {
+    min-height: calc(var(--nn-file-multiline-text-line-height) * var(--nn-android-font-scale, 1));
     max-height: calc(var(--nn-file-multiline-text-line-height) * var(--preview-rows, 1) * var(--nn-android-font-scale, 1));
 }
 

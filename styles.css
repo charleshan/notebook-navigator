@@ -4010,6 +4010,7 @@ button.nn-navigation-calendar-day {
     -webkit-box-orient: vertical;
     line-height: var(--nn-file-title-line-height);
     word-break: break-word;
+    min-height: var(--nn-file-title-line-height);
     max-height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1));
 }
 
@@ -4017,6 +4018,11 @@ button.nn-navigation-calendar-day {
     display: block;
     white-space: nowrap;
     word-break: normal;
+}
+
+.nn-file-name[data-title-rows='0'] {
+    -webkit-line-clamp: unset;
+    max-height: none;
 }
 
 .nn-file-name[data-has-color='true'] {
@@ -4175,7 +4181,21 @@ button.nn-navigation-calendar-day {
     -webkit-line-clamp: var(--preview-rows, 1);
     -webkit-box-orient: vertical;
     word-break: break-word;
+    flex: 1;
+}
+
+/* Multi-line preview - shrink to content but cap at configured rows */
+.nn-file-preview:not(.nn-file-second-line .nn-file-preview) {
+    min-height: var(--nn-file-multiline-text-line-height);
     max-height: calc(var(--nn-file-multiline-text-line-height) * var(--preview-rows, 1));
+}
+
+/* Preview on same line as date - match date line-height for alignment */
+.nn-file-second-line .nn-file-preview {
+    line-height: var(--nn-file-single-text-line-height);
+    display: block;
+    white-space: nowrap;
+    word-break: normal;
 }
 
 /* Parent folder indicator shown under file names */
@@ -6815,8 +6835,9 @@ body.nn-resizing {
 /* Virtual file item wrapper - position relative for separator positioning */
 .nn-virtual-file-item {
     position: relative;
-    height: var(--item-height);
-    /* Isolate layout and style calculations per item while allowing overlays to extend beyond bounds */
+    /* Variable row heights: size to content so measureElement reads the real height.
+       Upstream pins this wrapper to the --item-height estimate (fixed rows); that
+       estimate is an upper bound, so pinning it would stop rows shrinking to content. */
     contain: layout style;
 }
 /* Source: src/styles/sections/settings-page.css */
@@ -8645,10 +8666,16 @@ button.nn-mobile-toolbar-button {
 
 /* Clamp height compensation - Android doesn't scale max-height, so match the compensated line-height after textZoom applies. */
 .notebook-navigator-android .nn-file-name {
+    min-height: calc(var(--nn-file-title-line-height) * var(--nn-android-font-scale, 1));
     max-height: calc(var(--nn-file-title-line-height) * var(--filename-rows, 1) * var(--nn-android-font-scale, 1));
 }
 
-.notebook-navigator-android .nn-file-preview {
+.notebook-navigator-android .nn-file-name[data-title-rows='0'] {
+    max-height: none;
+}
+
+.notebook-navigator-android .nn-file-preview:not(.nn-file-second-line .nn-file-preview) {
+    min-height: calc(var(--nn-file-multiline-text-line-height) * var(--nn-android-font-scale, 1));
     max-height: calc(var(--nn-file-multiline-text-line-height) * var(--preview-rows, 1) * var(--nn-android-font-scale, 1));
 }
 

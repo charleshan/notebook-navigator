@@ -951,6 +951,7 @@ export function ListPaneVirtualContent({
                             return (
                                 <div
                                     key={virtualItem.key}
+                                    ref={rowVirtualizer.measureElement}
                                     className={virtualItemClasses.join(' ')}
                                     style={virtualItemStyle}
                                     data-index={virtualItem.index}

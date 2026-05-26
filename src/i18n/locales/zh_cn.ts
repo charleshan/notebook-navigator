@@ -399,9 +399,11 @@ export const STRINGS_ZH_CN = {
         previewRows: '预览行数',
         groupBy: '分组依据',
         defaultTitleOption: (rows: number) => `默认标题行数 (${rows})`,
+        defaultAutoTitleOption: '默认标题行 (自动)',
         defaultPreviewOption: (rows: number) => `默认预览行数 (${rows})`,
         defaultGroupOption: (groupLabel: string) => `默认分组 (${groupLabel})`,
         titleRowOption: (rows: number) => `标题${rows}行`,
+        autoTitleRowOption: '自动标题行',
         previewRowOption: (rows: number) => `预览${rows}行`
     },
 
@@ -1870,7 +1872,8 @@ export const STRINGS_ZH_CN = {
                 options: {
                     '1': '1 行',
                     '2': '2 行',
-                    '3': '3 行'
+                    '3': '3 行',
+                    '0': '自动'
                 }
             },
             useFolderColor: {

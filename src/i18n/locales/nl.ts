@@ -402,9 +402,11 @@ export const STRINGS_NL = {
         previewRows: 'Voorbeeldrijen',
         groupBy: 'Groeperen op',
         defaultTitleOption: (rows: number) => `Standaard titelrijen (${rows})`,
+        defaultAutoTitleOption: 'Standaard titelrijen (Auto)',
         defaultPreviewOption: (rows: number) => `Standaard voorbeeldrijen (${rows})`,
         defaultGroupOption: (groupLabel: string) => `Standaardgroepering (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} titelrij${rows === 1 ? '' : 'en'}`,
+        autoTitleRowOption: 'Automatische titelrijen',
         previewRowOption: (rows: number) => `${rows} voorbeeldrij${rows === 1 ? '' : 'en'}`
     },
 
@@ -1889,7 +1891,8 @@ export const STRINGS_NL = {
                 options: {
                     '1': '1 rij',
                     '2': '2 rijen',
-                    '3': '3 rijen'
+                    '3': '3 rijen',
+                    '0': 'Auto'
                 }
             },
             useFolderColor: {

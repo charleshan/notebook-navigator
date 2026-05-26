@@ -399,9 +399,11 @@ export const STRINGS_TH = {
         previewRows: 'แถวตัวอย่าง',
         groupBy: 'จัดกลุ่มตาม',
         defaultTitleOption: (rows: number) => `แถวชื่อเรื่องเริ่มต้น (${rows})`,
+        defaultAutoTitleOption: 'แถวชื่อเรื่องเริ่มต้น (อัตโนมัติ)',
         defaultPreviewOption: (rows: number) => `แถวตัวอย่างเริ่มต้น (${rows})`,
         defaultGroupOption: (groupLabel: string) => `การจัดกลุ่มเริ่มต้น (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} แถวชื่อเรื่อง`,
+        autoTitleRowOption: 'แถวชื่อเรื่องอัตโนมัติ',
         previewRowOption: (rows: number) => `${rows} แถวตัวอย่าง`
     },
 
@@ -1878,7 +1880,8 @@ export const STRINGS_TH = {
                 options: {
                     '1': '1 แถว',
                     '2': '2 แถว',
-                    '3': '3 แถว'
+                    '3': '3 แถว',
+                    '0': 'อัตโนมัติ'
                 }
             },
             useFolderColor: {

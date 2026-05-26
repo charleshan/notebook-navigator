@@ -399,9 +399,11 @@ export const STRINGS_IT = {
         previewRows: 'Righe anteprima',
         groupBy: 'Raggruppa per',
         defaultTitleOption: (rows: number) => `Righe titolo predefinite (${rows})`,
+        defaultAutoTitleOption: 'Righe titolo predefinite (Auto)',
         defaultPreviewOption: (rows: number) => `Righe anteprima predefinite (${rows})`,
         defaultGroupOption: (groupLabel: string) => `Raggruppamento predefinito (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} ${rows === 1 ? 'riga' : 'righe'} titolo`,
+        autoTitleRowOption: 'Righe titolo automatiche',
         previewRowOption: (rows: number) => `${rows} ${rows === 1 ? 'riga' : 'righe'} anteprima`
     },
 
@@ -1885,7 +1887,8 @@ export const STRINGS_IT = {
                 options: {
                     '1': '1 riga',
                     '2': '2 righe',
-                    '3': '3 righe'
+                    '3': '3 righe',
+                    '0': 'Auto'
                 }
             },
             useFolderColor: {

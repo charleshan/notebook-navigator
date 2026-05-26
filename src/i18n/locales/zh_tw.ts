@@ -399,9 +399,11 @@ export const STRINGS_ZH_TW = {
         previewRows: '預覽行數',
         groupBy: '分組依據',
         defaultTitleOption: (rows: number) => `預設標題行數 (${rows})`,
+        defaultAutoTitleOption: '預設標題行 (自動)',
         defaultPreviewOption: (rows: number) => `預設預覽行數 (${rows})`,
         defaultGroupOption: (groupLabel: string) => `預設分組 (${groupLabel})`,
         titleRowOption: (rows: number) => `標題${rows}行`,
+        autoTitleRowOption: '自動標題行',
         previewRowOption: (rows: number) => `預覽${rows}行`
     },
 
@@ -1870,7 +1872,8 @@ export const STRINGS_ZH_TW = {
                 options: {
                     '1': '1 行',
                     '2': '2 行',
-                    '3': '3 行'
+                    '3': '3 行',
+                    '0': '自動'
                 }
             },
             useFolderColor: {

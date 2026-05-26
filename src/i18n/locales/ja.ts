@@ -399,9 +399,11 @@ export const STRINGS_JA = {
         previewRows: 'プレビュー行数',
         groupBy: 'グループ分け',
         defaultTitleOption: (rows: number) => `デフォルトタイトル行数 (${rows})`,
+        defaultAutoTitleOption: 'デフォルトタイトル行 (自動)',
         defaultPreviewOption: (rows: number) => `デフォルトプレビュー行数 (${rows})`,
         defaultGroupOption: (groupLabel: string) => `デフォルトのグループ化 (${groupLabel})`,
         titleRowOption: (rows: number) => `タイトル${rows}行`,
+        autoTitleRowOption: '自動タイトル行',
         previewRowOption: (rows: number) => `プレビュー${rows}行`
     },
 
@@ -1884,7 +1886,8 @@ export const STRINGS_JA = {
                 options: {
                     '1': '1行',
                     '2': '2行',
-                    '3': '3行'
+                    '3': '3行',
+                    '0': '自動'
                 }
             },
             useFolderColor: {

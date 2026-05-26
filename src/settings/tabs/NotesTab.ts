@@ -591,6 +591,7 @@ function renderFileNameRowsSetting(setting: Setting, context: SettingsTabContext
                 .addOption('1', strings.settings.items.fileNameRows.options['1'])
                 .addOption('2', strings.settings.items.fileNameRows.options['2'])
                 .addOption('3', strings.settings.items.fileNameRows.options['3'])
+                .addOption('0', strings.settings.items.fileNameRows.options['0'])
                 .setValue(plugin.settings.fileNameRows.toString())
                 .onChange(async value => {
                     plugin.settings.fileNameRows = parseInt(value, 10);

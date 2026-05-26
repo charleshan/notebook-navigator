@@ -400,9 +400,11 @@ export const STRINGS_ES = {
         previewRows: 'Filas de vista previa',
         groupBy: 'Agrupar por',
         defaultTitleOption: (rows: number) => `Filas de título predeterminadas (${rows})`,
+        defaultAutoTitleOption: 'Filas de título predeterminadas (Auto)',
         defaultPreviewOption: (rows: number) => `Filas de vista previa predeterminadas (${rows})`,
         defaultGroupOption: (groupLabel: string) => `Agrupación predeterminada (${groupLabel})`,
         titleRowOption: (rows: number) => `${rows} fila${rows === 1 ? '' : 's'} de título`,
+        autoTitleRowOption: 'Filas de título automáticas',
         previewRowOption: (rows: number) => `${rows} fila${rows === 1 ? '' : 's'} de vista previa`
     },
 
@@ -1889,7 +1891,8 @@ export const STRINGS_ES = {
                 options: {
                     '1': '1 fila',
                     '2': '2 filas',
-                    '3': '3 filas'
+                    '3': '3 filas',
+                    '0': 'Auto'
                 }
             },
             useFolderColor: {
